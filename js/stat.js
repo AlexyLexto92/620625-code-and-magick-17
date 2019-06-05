@@ -24,9 +24,9 @@ var getmaxElement = function (arr) {
   return maxElement;
 };
 
-var getBarColor = function (arr) {
-  for (var i = 0; i <= arr.length; i++) {
-    var color = arr[i];
+var getBarColor = function (color) {
+  for (var i = 0; i <= color.length; i++) {
+    var color = color[i];
   }
   return color;
 };
@@ -39,7 +39,6 @@ window.renderStatistics = function (ctx, players, times) {
   ctx.fillText('Ура вы победили!', 110, 40);
   ctx.fillText('Список результатов:', 110, 60);
   var maxTime = getmaxElement(times);
-  var BarColor = getBarColor(colors);
   for (var i = 0; i < players.length; i++) {
     ctx.fillStyle = '#000';
     ctx.font = 'bold FONT_GAP PT Mono';
