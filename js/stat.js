@@ -24,12 +24,6 @@ var getmaxElement = function (arr) {
   return maxElement;
 };
 
-var getBarColor = function (color) {
-  for (var i = 0; i <= color.length; i++) {
-    var color = color[i];
-  }
-  return color;
-};
 
 window.renderStatistics = function (ctx, players, times) {
   renderCloud(ctx, CLOUD_X, CLOUD_Y, 'rgba(0, 0, 0, 0.7)');
