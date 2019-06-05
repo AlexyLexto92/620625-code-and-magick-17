@@ -44,7 +44,7 @@ window.renderStatistics = function (ctx, players, times) {
     ctx.fillStyle = '#000';
     ctx.font = 'bold FONT_GAP PT Mono';
     ctx.fillText(players[i], CLOUD_X + BAR_DISTANCE + (BAR_WIDTH + BAR_DISTANCE) * i, CLOUD_HEIGHT, TEXT_WIDTH);
-    ctx.fillStyle = BarColor;
+    ctx.fillStyle = colors[i];
     ctx.fillRect(CLOUD_X + BAR_DISTANCE + (BAR_WIDTH + BAR_DISTANCE) * i, CLOUD_HEIGHT - BAR_HEIGHT * times[i] / maxTime - FONT_GAP, BAR_WIDTH, BAR_HEIGHT * times[i] / maxTime);
     ctx.fillStyle = '#000';
     ctx.font = 'bold FONT_GAP PT-Mono';
