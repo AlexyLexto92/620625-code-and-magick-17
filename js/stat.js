@@ -8,7 +8,7 @@ var TEXT_WIDTH = 50;
 var BAR_HEIGHT = 150;
 var BAR_WIDTH = 40;
 var BAR_DISTANCE = 50;
-var colors = ['rgba(255, 0, 0, 1)', '#3F3FBF', '#BDBDD5', '#75757A'];
+var colors = ['#3F3FBF', '#BDBDD5', '#75757A'];
 var renderCloud = function (ctx, x, y, color) {
   ctx.fillStyle = color;
   ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
@@ -37,7 +37,11 @@ window.renderStatistics = function (ctx, players, times) {
     ctx.fillStyle = '#000';
     ctx.font = 'bold FONT_GAP PT Mono';
     ctx.fillText(players[i], CLOUD_X + BAR_DISTANCE + (BAR_WIDTH + BAR_DISTANCE) * i, CLOUD_HEIGHT, TEXT_WIDTH);
-    ctx.fillStyle = colors[i];
+    if (players[i] === 'Вы') {
+      ctx.fillStyle = 'rgba(255, 0, 0, 1)';
+    } else {
+      ctx.fillStyle = colors[i];
+    }
     ctx.fillRect(CLOUD_X + BAR_DISTANCE + (BAR_WIDTH + BAR_DISTANCE) * i, CLOUD_HEIGHT - BAR_HEIGHT * times[i] / maxTime - FONT_GAP, BAR_WIDTH, BAR_HEIGHT * times[i] / maxTime);
     ctx.fillStyle = '#000';
     ctx.font = 'bold FONT_GAP PT-Mono';
