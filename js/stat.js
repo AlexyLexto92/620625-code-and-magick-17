@@ -25,19 +25,19 @@ var getmaxElement = function (arr) {
 };
 
 
-window.renderStatistics = function (ctx, players, times) {
-  renderCloud(ctx, CLOUD_X, CLOUD_Y, 'rgba(0, 0, 0, 0.7)');
+window.renderStatistics = function (ctx, names, times) {
+  renderCloud(ctx, CLOUD_X+10, CLOUD_Y+10, 'rgba(0, 0, 0, 0.7)');
   renderCloud(ctx, CLOUD_X, CLOUD_Y, '#fff');
   ctx.fillStyle = '#000';
   ctx.font = 'bold FONT_GAP PT Mono';
   ctx.fillText('Ура вы победили!', 110, 40);
   ctx.fillText('Список результатов:', 110, 60);
   var maxTime = getmaxElement(times);
-  for (var i = 0; i < players.length; i++) {
+  for (var i = 0; i < names.length; i++) {
     ctx.fillStyle = '#000';
     ctx.font = 'bold FONT_GAP PT Mono';
-    ctx.fillText(players[i], CLOUD_X + BAR_DISTANCE + (BAR_WIDTH + BAR_DISTANCE) * i, CLOUD_HEIGHT, TEXT_WIDTH);
-    if (players[i] === 'Вы') {
+    ctx.fillText(names[i], CLOUD_X + BAR_DISTANCE + (BAR_WIDTH + BAR_DISTANCE) * i, CLOUD_HEIGHT, TEXT_WIDTH);
+    if (names[i] === 'Вы') {
       ctx.fillStyle = 'rgba(255, 0, 0, 1)';
     } else {
       ctx.fillStyle = colors[i];
