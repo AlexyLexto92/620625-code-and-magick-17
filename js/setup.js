@@ -15,15 +15,30 @@ var names = ['Иван', 'Хуан Себастьян', 'Мария', 'Крис�
 var soName = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
 var cloathColor = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 var colorOfEyes = ['black', 'red', 'blue', 'yellow', 'green'];
-var wizardProperties = [];
+var wizardProperties = [{
+  name: names[Math.floor(Math.random() * names.length)] + ' ' + soName[Math.floor(Math.random() * soName.length)],
+  coatColor: cloathColor[Math.floor(Math.random() * cloathColor.length)],
+  eyesColor: colorOfEyes[Math.floor(Math.random() * colorOfEyes.length)]
+},
+{
+  name: names[Math.floor(Math.random() * names.length)] + ' ' + soName[Math.floor(Math.random() * soName.length)],
+  coatColor: cloathColor[Math.floor(Math.random() * cloathColor.length)],
+  eyesColor: colorOfEyes[Math.floor(Math.random() * colorOfEyes.length)]
+},
+{
+  name: names[Math.floor(Math.random() * names.length)] + ' ' + soName[Math.floor(Math.random() * soName.length)],
+  coatColor: cloathColor[Math.floor(Math.random() * cloathColor.length)],
+  eyesColor: colorOfEyes[Math.floor(Math.random() * colorOfEyes.length)]
+},
+{
+  name: names[Math.floor(Math.random() * names.length)] + ' ' + soName[Math.floor(Math.random() * soName.length)],
+  coatColor: cloathColor[Math.floor(Math.random() * cloathColor.length)],
+  eyesColor: colorOfEyes[Math.floor(Math.random() * colorOfEyes.length)]
+},
+];
 
-for (var i = 0; i < 4; i++) {
+for (var i = 0; i < wizardProperties.length; i++) {
   var wizardElement = templateElement.cloneNode(true);
-
-  wizardProperties[i].name = names[Math.floor(Math.random() * names.length)] + ' ' +
-    soName[Math.floor(Math.random() * soName.length)];
-  wizardProperties[i].coatColor = cloathColor[Math.floor(Math.random() * cloathColor.length)];
-  wizardProperties[i].eyesColor = colorOfEyes[Math.floor(Math.random() * colorOfEyes.length)];
   wizardElement.querySelector('.setup-similar-label').textContent = wizardProperties[i].name;
   wizardElement.querySelector('.wizard-coat').style.fill = wizardProperties[i].coatColor;
   wizardElement.querySelector('.wizard-eyes').style.fill = wizardProperties[i].eyesColor;
