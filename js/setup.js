@@ -59,19 +59,16 @@ for (var i = 0; i < wizardProperties.length; i++) {
   SimilarList.appendChild(wizardElement);
 }
 */
-  var renderWizard = function (wizardProperties) {
-    var wizardElement = templateElement.cloneNode(true);
-    wizardElement.querySelector('.setup-similar-label').textContent = wizardProperties.name;
-    wizardElement.querySelector('.wizard-coat').style.fill = wizardProperties.coatColor;
-    wizardElement.querySelector('.wizard-eyes').style.fill = wizardProperties.eyesColor;
-    return wizardElement;
-  }
+var renderWizard = function (Properties) {
+  var wizardElement = templateElement.cloneNode(true);
+  wizardElement.querySelector('.setup-similar-label').textContent = Properties.name;
+  wizardElement.querySelector('.wizard-coat').style.fill = Properties.coatColor;
+  wizardElement.querySelector('.wizard-eyes').style.fill = Properties.eyesColor;
+  return wizardElement;
+};
 
-
-
-  var fragment = document.createDocumentFragment();
-  for (var i = 0; i < wizardProperties.length; i++) {
-    fragment.appendChild(renderWizard(wizardProperties[i]));
-  }
-  SimilarList.appendChild(fragment);
-
+var fragment = document.createDocumentFragment();
+for (var i = 0; i < wizardProperties.length; i++) {
+  fragment.appendChild(renderWizard(wizardProperties[i]));
+}
+SimilarList.appendChild(fragment);
