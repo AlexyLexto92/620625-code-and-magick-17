@@ -1,7 +1,5 @@
 'use strict';
 
-
-
 var setupSimilarOpen = document.querySelector('.setup-similar');
 setupSimilarOpen.classList.remove('hidden');
 
@@ -85,8 +83,6 @@ var buttonOpenSetupIcon = document.querySelector('.setup-open-icon');
 buttonOpenSetupIcon.setAttribute('tabindex', 0);
 var setupUserName = setupPopup.querySelector('.setup-user-name');
 var setupForm = setupPopup.querySelector('.setup-wizard-form');
-//  кнопка Сохранить
-var buttonSaveSetup = setupPopup.querySelector('.setup-submit');
 //  весь волшебник
 var setupWizard = setupPopup.querySelector('.setup-player');
 //  цвет мантии
@@ -101,8 +97,14 @@ var wizardCoatInput = setupWizard.querySelector('input[name="coat-color"]');
 var wizardEyesInput = setupWizard.querySelector('input[name="eyes-color"]');
 // input файрбола по имени
 var wizardFireballInput = setupWizard.querySelector('input[name="fireball-color"]');
+// функция рандомных цветов из массива
+function randomColor(intArray) {
+  var randColor = intArray[Math.floor(Math.random() * intArray.length)];
+  return randColor;
+}
 
-//  записываем в функцию всё действия в открытом окне
+
+//  записываем в функцию все действия в открытом окне
 var onButtonClick = function () {
   //  присваивание tabindex=0 для кнопки закрытия окна
   buttonCloseSetup.setAttribute('tabindex', 0);
@@ -113,8 +115,6 @@ var onButtonClick = function () {
   //  задаём форме атрибут minlength
   setupUserName.setAttribute('minlength', 2);
 
-
-
   //  реализация закрытия окна через нажатие кнопоки ESC
   document.addEventListener('keydown', function (evt) {
     //  проверяем setupUserName- елемент ли сейчас в фокусе
@@ -123,11 +123,11 @@ var onButtonClick = function () {
       return evt;
     }
     //  если нет-закрываем окно
-    else {
-      if (evt.keyCode === ESC_KEYCODE) {
-        setupPopup.classList.add('hidden');
-      }
+    if (evt.keyCode === ESC_KEYCODE) {
+      setupPopup.classList.add('hidden');
     }
+    return evt;
+
   });
 
   //  изменение цвета мантии по клику
@@ -154,32 +154,21 @@ var onButtonClick = function () {
 
   //  реализация закрытия окна через нажатие кнопоки Enter при фокусе на buttonCloseSetup
   buttonCloseSetup.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === NTER_KEYCODE) {
+    if (evt.keyCode === ENTER_KEYCODE) {
       setupPopup.classList.add('hidden');
     }
   });
-
-}
-// функция рандомных цветов из массива
-function randomColor(intArray) {
-  var randColor = intArray[Math.floor(Math.random() * intArray.length)];
-  return randColor;
 };
-
-
-
 //  реализация открытия окна через нажатие кнопоки Enter при фокусе на buttonOpenSetupIcon
 buttonOpenSetup.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === NTER_KEYCODE) {
+  if (evt.keyCode === ENTER_KEYCODE) {
     setupPopup.classList.remove('hidden');
     onButtonClick();
   }
 });
 
-
 //  реализация открытия окна через щелчек мыши на buttonOpenSetup
 buttonOpenSetup.addEventListener('click', function () {
   setupPopup.classList.remove('hidden');
   onButtonClick();
-
 });
