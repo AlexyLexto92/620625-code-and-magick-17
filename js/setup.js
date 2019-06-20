@@ -84,7 +84,6 @@ document.addEventListener('keydown', function (evt) {
   //  проверяем setupUserName- елемент ли сейчас в фокусе
   if (document.activeElement === setupUserName) {
     //  если да -- не делаем ничего
-    evt.preventDefault();
   } else if (evt.keyCode === ESC_KEYCODE) {
     //  если нет-закрываем окно
     setupPopup.classList.add('hidden');
