@@ -73,22 +73,14 @@ var wizardCoatInput = setupWizard.querySelector('input[name="coat-color"]');
 var wizardEyesInput = setupWizard.querySelector('input[name="eyes-color"]');
 // input файрбола по имени
 var wizardFireballInput = setupWizard.querySelector('input[name="fireball-color"]');
+
 // функция рандомных цветов из массива
 function randomColor(intArray) {
   var randColor = intArray[Math.floor(Math.random() * intArray.length)];
   return randColor;
 }
-
-//  реализация закрытия окна через нажатие кнопоки ESC
-document.addEventListener('keydown', function (evt) {
-  //  проверяем setupUserName- елемент ли сейчас в фокусе
-  if (document.activeElement === setupUserName) {
-    //  если да -- не делаем ничего
-  } else if (evt.keyCode === ESC_KEYCODE) {
-    //  если нет-закрываем окно
-    setupPopup.classList.add('hidden');
-  }
-});
+var setupPopupTop;
+var setupPopupLeft;
 
 //  изменение цвета мантии по клику
 wizardCoat.addEventListener('click', function () {
@@ -106,26 +98,112 @@ wizardFireball.addEventListener('click', function () {
   wizardFireballInput.value = randomColor(fireballColor);
 });
 
+//  реализация открытия окна через щелчек мыши на buttonOpenSetup
+buttonOpenSetup.addEventListener('click', function () {
+  setupPopup.classList.remove('hidden');
+  //  реализация сбора данных сразу после открытия окна
+  setupPopupTop = setupPopup.offsetTop;
+  setupPopupLeft = setupPopup.offsetLeft;
+});
+//  реализация открытия окна через нажатие кнопоки Enter при фокусе на buttonOpenSetupIcon
+buttonOpenSetup.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    setupPopup.classList.remove('hidden');
+    //  реализация сбора данных сразу после открытия окна
+    setupPopupTop = setupPopup.offsetTop;
+    setupPopupLeft = setupPopup.offsetLeft;
+  }
+});
+
+//  функция возвращает исходные координаты полученные при первом открытии окна и обнуляет изменения
+function setDefaulPosition() {
+  setupPopup.style.top = setupPopupTop + 'px';
+  setupPopup.style.left = setupPopupLeft + 'px';
+}
+
+//  реализация закрытия окна через нажатие кнопоки ESC
+document.addEventListener('keydown', function (evt) {
+  //  проверяем setupUserName- елемент ли сейчас в фокусе
+  if (document.activeElement === setupUserName) {
+    //  если да -- не делаем ничего
+  } else if (evt.keyCode === ESC_KEYCODE) {
+    //  если нет-закрываем окно
+    setupPopup.classList.add('hidden');
+    //  при закрытии функция возвращает исходные координаты и обнуляет изменения
+    setDefaulPosition();
+  }
+});
+
+
 //  реализация закрытия окна через щелчек мыши на buttonCloseSetup
 buttonCloseSetup.addEventListener('click', function () {
   setupPopup.classList.add('hidden');
+  //  при закрытии функция возвращает исходные координаты и обнуляет изменения
+  setDefaulPosition();
 });
 
 //  реализация закрытия окна через нажатие кнопоки Enter при фокусе на buttonCloseSetup
 buttonCloseSetup.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
     setupPopup.classList.add('hidden');
+    //  при закрытии функция возвращает исходные координаты и обнуляет изменения
+    setDefaulPosition();
   }
 });
 
-//  реализация открытия окна через нажатие кнопоки Enter при фокусе на buttonOpenSetupIcon
-buttonOpenSetup.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
-    setupPopup.classList.remove('hidden');
-  }
-});
+//  реализация перетаскивания диалогового окна
+(function () {
+  //  сcылка на елемент для захвата
+  var dialogHandle = setupPopup.querySelector('.upload');
+  //  событие захвата
+  dialogHandle.addEventListener('mousedown', function (evt) {
 
-//  реализация открытия окна через щелчек мыши на buttonOpenSetup
-buttonOpenSetup.addEventListener('click', function () {
-  setupPopup.classList.remove('hidden');
-});
+    evt.preventDefault();
+    //  координаты точки с которой мы начали перемещать попап
+    var startCoordinats = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+
+    var dragged = false;
+    //  событие перетаскивания
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+      dragged = true;
+
+
+      //  расстояние на которое пеетянули курсор
+      var shift = {
+        x: startCoordinats.x - moveEvt.clientX,
+        y: startCoordinats.y - moveEvt.clientY
+      };
+
+      startCoordinats = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+
+      //  координаты перетянутого попапа
+      setupPopup.style.top = (setupPopup.offsetTop - shift.y) + 'px';
+      setupPopup.style.left = (setupPopup.offsetLeft - shift.x) + 'px';
+    };
+
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+
+      if (dragged) {
+        var onClickPreventDefault = function (evtO) {
+          evtO.preventDefault();
+          dialogHandle.removeEventListener('click', onClickPreventDefault);
+        };
+        dialogHandle.addEventListener('click', onClickPreventDefault);
+      }
+    };
+    //  обработчики события передвижения мыши и отпускания кнопки мыши
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  });
+})();
