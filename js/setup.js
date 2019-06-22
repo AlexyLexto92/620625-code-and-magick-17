@@ -73,7 +73,7 @@ var wizardCoatInput = setupWizard.querySelector('input[name="coat-color"]');
 var wizardEyesInput = setupWizard.querySelector('input[name="eyes-color"]');
 // input файрбола по имени
 var wizardFireballInput = setupWizard.querySelector('input[name="fireball-color"]');
-/*
+
 // функция рандомных цветов из массива
 function randomColor(intArray) {
   var randColor = intArray[Math.floor(Math.random() * intArray.length)];
@@ -149,8 +149,7 @@ buttonCloseSetup.addEventListener('keydown', function (evt) {
     //  при закрытии функция возвращает исходные координаты и обнуляет изменения
     setDefaulPosition();
   }
-});*/
-/*
+});
 //  реализация перетаскивания диалогового окна
 (function () {
   //  сcылка на елемент для захвата
@@ -208,69 +207,67 @@ buttonCloseSetup.addEventListener('keydown', function (evt) {
   });
 })();
 
+(function () {
+  //  реализация перетаскивания предметов из магазина врюкзак
+  setupPopup.classList.remove('hidden');
+  //  блок магазина артефактов
+  var artifactsShop = document.querySelector('.setup-artifacts-shop');
+  //  блок обертки артефактов
+  var artifactsSell = artifactsShop.querySelector('.setup-artifacts-cell');
+  //  блок  артефакта
+  var artifactsItem = artifactsSell.querySelector('img');
+  artifactsItem.style.position = 'absolute';
+  artifactsItem.style.zIndex = '1';
 
-*/(function(){
-debugger
-//  реализация перетаскивания предметов из магазина врюкзак
+  // минимальные координаты по ширине  за которые не может выходить звезда
+  var minPositionStarCoordinatsX = 0;
+  //  максимвльные координаты по ширине  за которые не может выходить звезда
+  var maxPositionStarCoordinatsX = setupPopup.offsetWidth;
+  // минимальные координаты по высоте  за которые не может выходить звезда
+  var minPositionStarCoordinatsY = 0;
+  //  максимвльные координаты по высоте  за которые не может выходить звезда
+  var maxPositionStarCoordinatsY = setupPopup.offsetHeight;
+  //  навешиваем событие захвата на артефакт  удаляя у него дефолтное событие
+  artifactsItem.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+    //  определяем координаты захвата миши
+    var startCoordinats = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+    //  событие перетаскивания
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
 
+      //   расстояние на которое перетянули курсор
+      var shift = {
+        x: startCoordinats.x - moveEvt.clientX,
+        y: startCoordinats.y - moveEvt.clientY
+      };
 
-setupPopup.classList.remove('hidden');
+      startCoordinats = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+      var positionStarY = artifactsItem.offsetTop - shift.y;
+      if (positionStarY >= minPositionStarCoordinatsY && positionStarY <= maxPositionStarCoordinatsY) {
+        artifactsItem.style.top = positionStarY + 'px';
+      }
+      var positionStarX = artifactsItem.offsetLeft - shift.x;
+      if (positionStarX >= minPositionStarCoordinatsX && positionStarX <= maxPositionStarCoordinatsX) {
+        artifactsItem.style.left = positionStarX + 'px';
+      }
+    };
 
-
-//  блок магазина артефактов
-var artifactsShop=document.querySelector('.setup-artifacts-shop');
-//  блок обертки артефактов
-var artifactsSell=artifactsShop.querySelector('.setup-artifacts-cell');
-//  блок  артефакта
-var artifactsItem=artifactsSell.querySelector('img');
-artifactsItem.style.position="absolute";
-artifactsItem.style.zIndex="1";
-
-// минимальные координаты по ширине  за которые не может выходить звезда
-var minPositionStarCoordinatsX=0;
-//  максимвльные координаты по ширине  за которые не может выходить звезда
-var maxPositionStarCoordinatsX=setupPopup.offsetWidth;
-// минимальные координаты по высоте  за которые не может выходить звезда
-var minPositionStarCoordinatsY=0;
-//  максимвльные координаты по высоте  за которые не может выходить звезда
-var maxPositionStarCoordinatsY=setupPopup.offsetHeight;
-//  навешиваем событие захвата на артефакт  удаляя у него дефолтное событие
-artifactsItem.addEventListener('mousedown',function(evt){
-evt.preventDefault();
-//  определяем координаты захвата миши
-var startCoordinats={
-  x:evt.clientX,
-  y:evt.clientY
-}
-//  событие перетаскивания
-var onMouseMove=function  (moveEvt){
-moveEvt.preventDefault();
-
-//   расстояние на которое перетянули курсор
-var shift={
-  x:startCoordinats.x-moveEvt.clientX,
-  y:startCoordinats.y-moveEvt.clientY
-}
-
-startCoordinats={
-  x:moveEvt.clientX,
-  y:moveEvt.clientY
-}
-
-artifactsItem.style.top=artifactsItem.offsetTop-shift.y+'px';
-
-artifactsItem.style.left=artifactsItem.offsetLeft-shift.x+'px';
-};
-
-var onMouseUp = function (upEvt) {
-  upEvt.preventDefault();
-//  останавливаем событие
-  document.removeEventListener('mousemove', onMouseMove);
-  document.removeEventListener('mouseup', onMouseUp);
-};
-//  обработчики события передвижения мыши и отпускания кнопки мыши
-document.addEventListener('mousemove', onMouseMove);
-document.addEventListener('mouseup', onMouseUp);
-});
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+      //  останавливаем событие
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+    //  обработчики события передвижения мыши и отпускания кнопки мыши
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  });
 
 })();
