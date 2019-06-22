@@ -161,17 +161,21 @@ buttonCloseSetup.addEventListener('keydown', function (evt) {
     //  при закрытии функция возвращает исходные координаты и обнуляет изменения
     setDefaulPositionSetup();
     setDefaulPositionStar();
+
   }
 });
 //  реализация перетаскивания диалогового окна
-(function () {
-  //  сcылка на елемент для захвата
-  var dialogHandle = setupPopup.querySelector('.upload');
+
+//  сcылка на елемент для захвата
+var dialogHandle = setupPopup.querySelector('.upload');
+
+function popupMove() {
   //  событие захвата
   dialogHandle.addEventListener('mousedown', function (evt) {
 
     evt.preventDefault();
     //  координаты точки с которой мы начали перемещать попап
+
     var startCoordinats = {
       x: evt.clientX,
       y: evt.clientY
@@ -218,7 +222,9 @@ buttonCloseSetup.addEventListener('keydown', function (evt) {
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
-})();
+}
+popupMove();
+
 
 //  блок магазина артефактов
 var artifactsShop = document.querySelector('.setup-artifacts-shop');
@@ -229,10 +235,8 @@ var artifactsItem = artifactsSell.querySelector('img');
 artifactsItem.style.position = 'absolute';
 artifactsItem.style.zIndex = '1';
 
-(function () {
+function starMove() {
   //  реализация перетаскивания предметов из магазина врюкзак
-
-
   // минимальные координаты по ширине  за которые не может выходить звезда
   var minPositionStarCoordinatsX = 0;
   //  максимвльные координаты по ширине  за которые не может выходить звезда
@@ -250,18 +254,18 @@ artifactsItem.style.zIndex = '1';
       y: evt.clientY
     };
     //  событие перетаскивания
-    var onMouseMove = function (moveEvt) {
-      moveEvt.preventDefault();
+    var onMouseMoveStar = function (moveStarEvt) {
+      moveStarEvt.preventDefault();
 
       //   расстояние на которое перетянули курсор
       var shift = {
-        x: startCoordinats.x - moveEvt.clientX,
-        y: startCoordinats.y - moveEvt.clientY
+        x: startCoordinats.x - moveStarEvt.clientX,
+        y: startCoordinats.y - moveStarEvt.clientY
       };
 
       startCoordinats = {
-        x: moveEvt.clientX,
-        y: moveEvt.clientY
+        x: moveStarEvt.clientX,
+        y: moveStarEvt.clientY
       };
       var positionStarY = artifactsItem.offsetTop - shift.y;
       if (positionStarY >= minPositionStarCoordinatsY && positionStarY <= maxPositionStarCoordinatsY) {
@@ -273,15 +277,16 @@ artifactsItem.style.zIndex = '1';
       }
     };
 
-    var onMouseUp = function (upEvt) {
+    var onMouseUpStar = function (upEvt) {
       upEvt.preventDefault();
       //  останавливаем событие
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('mousemove', onMouseMoveStar);
+      document.removeEventListener('mouseup', onMouseUpStar);
     };
     //  обработчики события передвижения мыши и отпускания кнопки мыши
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('mousemove', onMouseMoveStar);
+    document.addEventListener('mouseup', onMouseUpStar);
   });
+}
 
-})();
+starMove();
