@@ -222,11 +222,11 @@ buttonCloseSetup.addEventListener('keydown', function (evt) {
   // минимальные координаты по ширине  за которые не может выходить звезда
   var minPositionStarCoordinatsX = 0;
   //  максимвльные координаты по ширине  за которые не может выходить звезда
-  var maxPositionStarCoordinatsX = setupPopup.offsetWidth;
+  var maxPositionStarCoordinatsX = setupPopup.offsetWidth-artifactsItem.offsetWidth;
   // минимальные координаты по высоте  за которые не может выходить звезда
   var minPositionStarCoordinatsY = 0;
   //  максимвльные координаты по высоте  за которые не может выходить звезда
-  var maxPositionStarCoordinatsY = setupPopup.offsetHeight;
+  var maxPositionStarCoordinatsY = setupPopup.offsetHeight-artifactsItem.offsetHeight;
   //  навешиваем событие захвата на артефакт  удаляя у него дефолтное событие
   artifactsItem.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
