@@ -81,7 +81,8 @@ function randomColor(intArray) {
 }
 var setupPopupTop;
 var setupPopupLeft;
-
+var artifactsItemTop;
+var artifactsItemLeft;
 //  изменение цвета мантии по клику
 wizardCoat.addEventListener('click', function () {
   wizardCoat.style.fill = randomColor(cloathColor);
@@ -104,6 +105,8 @@ buttonOpenSetup.addEventListener('click', function () {
   //  реализация сбора данных сразу после открытия окна
   setupPopupTop = setupPopup.offsetTop;
   setupPopupLeft = setupPopup.offsetLeft;
+  artifactsItemTop = artifactsItem.offsetTop;
+  artifactsItemLeft = artifactsItem.offsetLeft;
 });
 //  реализация открытия окна через нажатие кнопоки Enter при фокусе на buttonOpenSetupIcon
 buttonOpenSetup.addEventListener('keydown', function (evt) {
@@ -112,13 +115,20 @@ buttonOpenSetup.addEventListener('keydown', function (evt) {
     //  реализация сбора данных сразу после открытия окна
     setupPopupTop = setupPopup.offsetTop;
     setupPopupLeft = setupPopup.offsetLeft;
+    artifactsItemTop = artifactsItem.offsetTop;
+    artifactsItemLeft = artifactsItem.offsetLeft;
   }
 });
 
 //  функция возвращает исходные координаты полученные при первом открытии окна и обнуляет изменения
-function setDefaulPosition() {
+function setDefaulPositionSetup() {
   setupPopup.style.top = setupPopupTop + 'px';
   setupPopup.style.left = setupPopupLeft + 'px';
+}
+
+function setDefaulPositionStar() {
+  artifactsItem.style.top = artifactsItemTop + 'px';
+  artifactsItem.style.left = artifactsItemLeft + 'px';
 }
 
 //  реализация закрытия окна через нажатие кнопоки ESC
@@ -130,7 +140,8 @@ document.addEventListener('keydown', function (evt) {
     //  если нет-закрываем окно
     setupPopup.classList.add('hidden');
     //  при закрытии функция возвращает исходные координаты и обнуляет изменения
-    setDefaulPosition();
+    setDefaulPositionSetup();
+    setDefaulPositionStar();
   }
 });
 
@@ -139,7 +150,8 @@ document.addEventListener('keydown', function (evt) {
 buttonCloseSetup.addEventListener('click', function () {
   setupPopup.classList.add('hidden');
   //  при закрытии функция возвращает исходные координаты и обнуляет изменения
-  setDefaulPosition();
+  setDefaulPositionSetup();
+  setDefaulPositionStar();
 });
 
 //  реализация закрытия окна через нажатие кнопоки Enter при фокусе на buttonCloseSetup
@@ -147,7 +159,8 @@ buttonCloseSetup.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
     setupPopup.classList.add('hidden');
     //  при закрытии функция возвращает исходные координаты и обнуляет изменения
-    setDefaulPosition();
+    setDefaulPositionSetup();
+    setDefaulPositionStar();
   }
 });
 //  реализация перетаскивания диалогового окна
@@ -207,26 +220,27 @@ buttonCloseSetup.addEventListener('keydown', function (evt) {
   });
 })();
 
+//  блок магазина артефактов
+var artifactsShop = document.querySelector('.setup-artifacts-shop');
+//  блок обертки артефактов
+var artifactsSell = artifactsShop.querySelector('.setup-artifacts-cell');
+//  блок  артефакта
+var artifactsItem = artifactsSell.querySelector('img');
+artifactsItem.style.position = 'absolute';
+artifactsItem.style.zIndex = '1';
+
 (function () {
   //  реализация перетаскивания предметов из магазина врюкзак
-  setupPopup.classList.remove('hidden');
-  //  блок магазина артефактов
-  var artifactsShop = document.querySelector('.setup-artifacts-shop');
-  //  блок обертки артефактов
-  var artifactsSell = artifactsShop.querySelector('.setup-artifacts-cell');
-  //  блок  артефакта
-  var artifactsItem = artifactsSell.querySelector('img');
-  artifactsItem.style.position = 'absolute';
-  artifactsItem.style.zIndex = '1';
+
 
   // минимальные координаты по ширине  за которые не может выходить звезда
   var minPositionStarCoordinatsX = 0;
   //  максимвльные координаты по ширине  за которые не может выходить звезда
-  var maxPositionStarCoordinatsX = setupPopup.offsetWidth-artifactsItem.offsetWidth;
+  var maxPositionStarCoordinatsX = setupPopup.offsetWidth - artifactsItem.offsetWidth;
   // минимальные координаты по высоте  за которые не может выходить звезда
   var minPositionStarCoordinatsY = 0;
   //  максимвльные координаты по высоте  за которые не может выходить звезда
-  var maxPositionStarCoordinatsY = setupPopup.offsetHeight-artifactsItem.offsetHeight;
+  var maxPositionStarCoordinatsY = setupPopup.offsetHeight - artifactsItem.offsetHeight;
   //  навешиваем событие захвата на артефакт  удаляя у него дефолтное событие
   artifactsItem.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
